@@ -10,14 +10,17 @@
  */
 enum Log {
     static func info(_ msg: String) {
-        LPLogv(.info, msg, getVaList([]))
+        let escaped = msg.replacingOccurrences(of: "%", with: "%%")
+        LPLogv(.info, escaped, getVaList([]))
     }
     
     static func debug(_ msg: String) {
-        LPLogv(.debug, msg, getVaList([]))
+        let escaped = msg.replacingOccurrences(of: "%", with: "%%")
+        LPLogv(.debug, escaped, getVaList([]))
     }
     
     static func error(_ msg: String) {
-        LPLogv(.error, msg, getVaList([]))
+        let escaped = msg.replacingOccurrences(of: "%", with: "%%")
+        LPLogv(.error, escaped, getVaList([]))
     }
 }
