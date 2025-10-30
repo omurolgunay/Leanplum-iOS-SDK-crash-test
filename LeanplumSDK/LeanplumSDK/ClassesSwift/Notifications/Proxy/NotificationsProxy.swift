@@ -57,9 +57,7 @@ public class NotificationsProxy: NSObject {
         NotificationCenter.default.removeObserver(self)
     }
     
-    @objc func leanplum_applicationDidFinishLaunching(notification: Notification) {
-        Log.notificationDebug("Called leanplum_applicationDidFinishLaunching: \(notification.userInfo ?? [:]), state \(UIApplication.shared.applicationState.rawValue))")
-        
+    @objc func leanplum_applicationDidFinishLaunching(notification: Notification) {        
         if let userInfo = notification.userInfo {
             applicationLaunched(launchOptions: userInfo)
         }
@@ -67,7 +65,6 @@ public class NotificationsProxy: NSObject {
     
     func applicationLaunched(launchOptions: [AnyHashable: Any]) {
         if let remoteNotification = launchOptions[UIApplication.LaunchOptionsKey.remoteNotification] as? [AnyHashable: Any] {
-            Log.notificationInfo("Application Launched with notification: \(remoteNotification)")
             notificationHandledFromStart = remoteNotification
             
             // started in background, woken up by remote notification
@@ -92,7 +89,6 @@ public class NotificationsProxy: NSObject {
     /// Swizzling Entry point
     @objc public func setupNotificationSwizzling() {
         guard LPUtils.isSwizzlingEnabled() else {
-            Log.info("Method swizzling is disabled, make sure to manually call Leanplum methods.")
             return
         }
         
