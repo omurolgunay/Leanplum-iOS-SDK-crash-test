@@ -11,28 +11,27 @@ let package = Package(
         .library(name: "LeanplumLocation", targets: ["LeanplumLocation"])
     ],
     dependencies: [
-        .package(url: "https://github.com/CleverTap/clevertap-ios-sdk", from: "7.1.1"),
-        .package(url: "https://github.com/omurolgunay/Leanplum-iOS-SDK-crash-test.git", branch: "master")
+        .package(url: "https://github.com/CleverTap/clevertap-ios-sdk", from: "7.1.1")
     ],
     targets: [
         .target(
+            name: "Leanplum",
+            dependencies: [],
+            path: "LeanplumSDK",
+            publicHeadersPath: "LeanplumSDK/include"
+        ),
+        .target(
             name: "LeanplumLocation",
-            dependencies: [
-                .product(name: "Leanplum", package: "Leanplum")
-            ],
+            dependencies: ["Leanplum"],
             path: "LeanplumSDKLocation",
             resources: [
                 .copy("LeanplumSDKLocation/PrivacyInfo.xcprivacy")
             ],
             publicHeadersPath: "LeanplumSDKLocation/include"
         ),
-        .target(
-            name: "LeanplumTargetWrapper",
-            dependencies: [
-                .product(name: "Leanplum", package: "Leanplum"),
-                .product(name: "CleverTapSDK", package: "clevertap-ios-sdk")
-            ],
-            path: "LeanplumTargetWrapper"
-        )
+        .target(name: "LeanplumTargetWrapper",
+                dependencies: ["Leanplum", .product(name: "CleverTapSDK", package: "clevertap-ios-sdk")],
+                path: "LeanplumTargetWrapper"
+               )
     ]
 )
