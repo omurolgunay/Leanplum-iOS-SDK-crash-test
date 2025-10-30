@@ -11,26 +11,28 @@ let package = Package(
         .library(name: "LeanplumLocation", targets: ["LeanplumLocation"])
     ],
     dependencies: [
-        .package(url: "https://github.com/CleverTap/clevertap-ios-sdk", from: "7.1.1")
+        .package(url: "https://github.com/CleverTap/clevertap-ios-sdk", from: "7.1.1"),
+        .package(url: "https://github.com/omurolgunay/Leanplum-iOS-SDK-crash-test.git", branch: "master")
     ],
     targets: [
-        .binaryTarget(
-            name: "Leanplum",
-            url: "https://github.com/Leanplum/Leanplum-iOS-SDK/releases/download/6.6.1/Leanplum.xcframework.zip",
-            checksum: "47e4d86508c83255241219f89441ea007b3683fc2569384d2928b6b45e91db01"
-        ),
         .target(
             name: "LeanplumLocation",
-            dependencies: ["Leanplum"],
+            dependencies: [
+                .product(name: "Leanplum", package: "Leanplum")
+            ],
             path: "LeanplumSDKLocation",
             resources: [
                 .copy("LeanplumSDKLocation/PrivacyInfo.xcprivacy")
             ],
             publicHeadersPath: "LeanplumSDKLocation/include"
         ),
-        .target(name: "LeanplumTargetWrapper",
-                dependencies: ["Leanplum", .product(name: "CleverTapSDK", package: "clevertap-ios-sdk")],
-                path: "LeanplumTargetWrapper"
-               )
+        .target(
+            name: "LeanplumTargetWrapper",
+            dependencies: [
+                .product(name: "Leanplum", package: "Leanplum"),
+                .product(name: "CleverTapSDK", package: "clevertap-ios-sdk")
+            ],
+            path: "LeanplumTargetWrapper"
+        )
     ]
 )
