@@ -16,15 +16,15 @@ let package = Package(
     targets: [
         .target(
             name: "Leanplum",
-            dependencies: [.product(name: "CleverTapSDK", package: "clevertap-ios-sdk")],
-    exclude: [
-        "Leanplum.bundle/Interstitial.storyboard",
-        "Leanplum.bundle/Popup.storyboard",
-        "Leanplum.bundle/WebInterstitial.storyboard"
-    ],
-    resources: [
-        .process("Leanplum.bundle")
-    ]
+            path: "Leanplum-SDK",
+            exclude: [
+                "LeanplumSDK_iOS-Info.plist",
+                "LeanplumSDK_tvOS-Info.plist"
+            ],
+            resources: [
+                .process("Resources")
+            ],
+            publicHeadersPath: "include"
         ),
         .target(
             name: "LeanplumLocation",
