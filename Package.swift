@@ -20,11 +20,10 @@ let package = Package(
             exclude: [
                 "LeanplumSDK_iOS-Info.plist",
                 "LeanplumSDK_tvOS-Info.plist",
-                "Leanplum.bundle"
+                // ✅ exclude Resources to avoid rebuilding storyboards already inside Leanplum.bundle
+                "Resources"
             ],
-            resources: [
-                .process("Resources")
-            ],
+            resources: [],
             publicHeadersPath: "include"
         ),
         .target(
