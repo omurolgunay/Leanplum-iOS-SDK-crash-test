@@ -18,7 +18,13 @@ let package = Package(
             name: "Leanplum",
             dependencies: [.product(name: "CleverTapSDK", package: "clevertap-ios-sdk")],
             path: "LeanplumSDK",
-            resources: []
+            exclude: [
+                "Info.plist",
+                "LeanplumSDK/Leanplum.bundle"
+            ],
+            resources: [
+                .process("Leanplum.bundle")
+            ]
         ),
         .target(
             name: "LeanplumLocation",
