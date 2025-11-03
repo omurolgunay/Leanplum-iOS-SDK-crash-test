@@ -19,7 +19,8 @@ let package = Package(
             path: "Leanplum-SDK",
             exclude: [
                 "LeanplumSDK_iOS-Info.plist",
-                "LeanplumSDK_tvOS-Info.plist"
+                "LeanplumSDK_tvOS-Info.plist",
+                "Leanplum.bundle"
             ],
             resources: [
                 .process("Resources")
@@ -30,14 +31,21 @@ let package = Package(
             name: "LeanplumLocation",
             dependencies: ["Leanplum"],
             path: "LeanplumSDKLocation",
+            exclude: [
+                "LeanplumSDKLocation/LeanplumSDKLocation-Info.plist"
+            ],
             resources: [
-                .copy("LeanplumSDKLocation/PrivacyInfo.xcprivacy")
+                .process("PrivacyInfo.xcprivacy")
             ],
             publicHeadersPath: "LeanplumSDKLocation/include"
         ),
-        .target(name: "LeanplumTargetWrapper",
-                dependencies: ["Leanplum", .product(name: "CleverTapSDK", package: "clevertap-ios-sdk")],
-                path: "LeanplumTargetWrapper"
-               )
+        .target(
+            name: "LeanplumTargetWrapper",
+            dependencies: [
+                "Leanplum",
+                .product(name: "CleverTapSDK", package: "clevertap-ios-sdk")
+            ],
+            path: "LeanplumTargetWrapper"
+        )
     ]
 )
