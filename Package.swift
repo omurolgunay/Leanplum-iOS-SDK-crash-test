@@ -14,37 +14,22 @@ let package = Package(
         .package(url: "https://github.com/CleverTap/clevertap-ios-sdk", from: "7.1.1")
     ],
     targets: [
-        .target(
+        .binaryTarget(
             name: "Leanplum",
-            path: "Leanplum-SDK",
-            exclude: [
-                "LeanplumSDK_iOS-Info.plist",
-                "LeanplumSDK_tvOS-Info.plist",
-                // ✅ exclude Resources to avoid rebuilding storyboards already inside Leanplum.bundle
-                "Resources"
-            ],
-            resources: [],
-            publicHeadersPath: "include"
+            path: "Leanplum.xcframework"
         ),
         .target(
             name: "LeanplumLocation",
             dependencies: ["Leanplum"],
             path: "LeanplumSDKLocation",
-            exclude: [
-                "LeanplumSDKLocation/LeanplumSDKLocation-Info.plist"
-            ],
             resources: [
-                .process("PrivacyInfo.xcprivacy")
+                .copy("LeanplumSDKLocation/PrivacyInfo.xcprivacy")
             ],
             publicHeadersPath: "LeanplumSDKLocation/include"
         ),
-        .target(
-            name: "LeanplumTargetWrapper",
-            dependencies: [
-                "Leanplum",
-                .product(name: "CleverTapSDK", package: "clevertap-ios-sdk")
-            ],
-            path: "LeanplumTargetWrapper"
-        )
+        .target(name: "LeanplumTargetWrapper",
+                dependencies: ["Leanplum", .product(name: "CleverTapSDK", package: "clevertap-ios-sdk")],
+                path: "LeanplumTargetWrapper"
+               )
     ]
 )
